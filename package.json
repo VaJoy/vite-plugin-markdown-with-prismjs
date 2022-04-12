@@ -1,14 +1,14 @@
 {
-  "name": "vite-plugin-markdown",
-  "version": "2.0.3-0",
-  "description": "Import markdown files in vite",
+  "name": "vite-plugin-markdown-with-prismjs",
+  "version": "2.0.0",
+  "description": "Import markdown files in vite with customized classes and Prismjs processing",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "tsc -w -p .",
-    "build": "rm -rf dist && tsc -p .",
+    "build": "tsc -p .",
     "lint": "eslint . --ext .ts",
     "test:acceptance": "npm run cypress:run",
     "cypress:run": "cypress run --config-file test/acceptance/cypress.json",
@@ -21,8 +21,9 @@
     "react",
     "vue"
   ],
-  "author": "Kengo Hamasaki <k.hamasaki@gmail.com>",
+  "author": "VaJoy Lan <vajoy@qq.com>",
   "contributors": [
+    "Kengo Hamasaki <k.hamasaki@gmail.com>",
     "sapphi-red <green@sapphi.red>",
     "Alex Zheng <zhibo90@gmail.com>",
     "Dafrok <o.o@mug.dog>"
@@ -30,16 +31,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hmsk/vite-plugin-markdown.git"
+    "url": "https://github.com/VaJoy/vite-plugin-markdown-with-prismjs.git"
   },
   "bugs": {
-    "url": "https://github.com/hmsk/vite-plugin-markdown/issues"
+    "url": "https://github.com/VaJoy/vite-plugin-markdown-with-prismjs/issues"
   },
-  "homepage": "https://github.com/hmsk/vite-plugin-markdown/tree/main/#readme",
+  "homepage": "https://github.com/VaJoy/vite-plugin-markdown-with-prismjs/tree/main/#readme",
   "dependencies": {
     "front-matter": "^4.0.0",
     "htmlparser2": "^6.0.0",
-    "markdown-it": "^12.0.0"
+    "markdown-it": "^12.0.0",
+    "prismjs": "^1.27.0"
   },
   "peerDependencies": {
     "vite": "^2.0.0"
@@ -48,6 +50,7 @@
     "@babel/core": "7.14.6",
     "@types/markdown-it": "12.0.1",
     "@types/node": "^16.0.0",
+    "@types/prismjs": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "@vue/compiler-sfc": "3.2.26",
