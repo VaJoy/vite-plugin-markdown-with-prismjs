@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-markdown-with-prismjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Import markdown files in vite with customized classes and Prismjs processing",
   "main": "dist/index.js",
   "files": [
@@ -39,6 +39,7 @@
   "homepage": "https://github.com/VaJoy/vite-plugin-markdown-with-prismjs/tree/main/#readme",
   "dependencies": {
     "front-matter": "^4.0.0",
+    "he": "^1.2.0",
     "htmlparser2": "^6.0.0",
     "markdown-it": "^12.0.0",
     "prismjs": "^1.27.0"
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.14.6",
+    "@types/he": "^1.1.2",
     "@types/markdown-it": "12.0.1",
     "@types/node": "^16.0.0",
     "@types/prismjs": "^1.26.0",

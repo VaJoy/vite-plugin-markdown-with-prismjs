@@ -5,7 +5,7 @@
     "@typescript-eslint"
   ],
   "ignorePatterns": [
-    "dist/*"
+    "dist/*", "test.js"
   ],
   "extends": [
     "eslint:recommended",

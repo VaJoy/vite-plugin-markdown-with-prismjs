@@ -4,7 +4,7 @@ import { Plugin } from 'vite'
 import { TransformResult } from 'rollup'
 import { parseDOM, DomUtils } from 'htmlparser2'
 import { Element, Node as DomHandlerNode } from 'domhandler'
-import Prism from 'prismjs';
+import { formatHTML } from './extend'
 
 export enum Mode {
   TOC = 'toc',
@@ -16,108 +16,13 @@ export enum Mode {
 export interface PluginOptions {
   classPrefix?: string
   disableCustomizedClass?: boolean
+  disableDecodeEntry?: boolean
   mode?: Mode[]
   markdown?: (body: string) => string
   markdownIt?: MarkdownIt | MarkdownIt.Options
 }
 
-const formatHTML = (html: string = '', options:PluginOptions) => {
-  let res = codeFormat(html, options);
-  if (!options.disableCustomizedClass) {
-      res = classFormat(res, options);
-  }
-  return res;
-}
 
-const customizedClassHandler = (code: string = '', options:PluginOptions) => {
-  let className = ``;
-  let isChildDomain = false;
-
-  if (!options.disableCustomizedClass) {
-      if (!options.disableCustomizedClass) {
-          // default for `...${class}`
-          let reg = /\$\{([^\{\}]*?)\}/;
-          // matching `<childElm ..>...</childElm>${class}`
-          const regAtEnd = /\$\{([^\{\}]*?)\}\s*$/;
-          // matching `<elm attr="xxx${class}xx" >`
-          const regAbbrTag = /<[^<>]+\$\{([^\{\}]*?)\}([^<>]+)>/;
-          // matching `<elm ..>..${class}</elm>`
-          const regInner = /<(\w+)[^<>]*>[^<>]*\$\{([^\{\}]*?)\}\s*<\/\1>/;
-
-          const isMatchAtEnd = code.match(regAtEnd);
-
-          if (!isMatchAtEnd && code.match(regInner)) {
-
-              isChildDomain = true;
-              code = codeFormat(code, options)
-          } else {
-              isChildDomain = Boolean(code.match(regAbbrTag));
-              if (isChildDomain) {
-                  reg = regAbbrTag;
-              } else if (code.match(regAtEnd)) {
-                  reg = regAtEnd;
-              }
-
-              code = code.replace(reg, (s, g = '', innerElemTail = '') => {
-                  if (options.classPrefix) {
-                      className += (options.classPrefix + g.split(',').join(` ${options.classPrefix}`));
-                  } else {
-                      className += g.replace(/,/g, ' ');
-                  }
-
-                  if (isChildDomain) {
-                      return s.replace(/\$\{[^\{\}]*\}/, `${innerElemTail} class="${className}`)
-                  }
-
-                  return '';
-              });
-          }
-
-          
-      }
-  }
-  return { className, code, isChildDomain: Boolean(isChildDomain) };
-}
-
-const codeFormat = (html:string, options:PluginOptions) => {
-  html = html.replace(/<pre>(<code(\sclass="language\-(\w+?)")?.*?>)([\s\S]*?)<\/code><\/pre>/g,
-      (s, codeTag, classAttr, language, code) => {
-          language = language || 'javascript';
-          let ret = customizedClassHandler(code, options);
-          let newCode = Prism.highlight(ret.code, Prism.languages[language], language);
-          return `<pre class="${ret.className}">${codeTag}${newCode}</code></pre>`
-      });
-
-  return html;
-}
-
-const replaceHTMLWithCustomizedClass = (options:PluginOptions, tag: string = '', tagName: string = '', code: string = '') => {
-  let ret = customizedClassHandler(code, options);
-  if (ret.code.match(/\$\{.+?\}/)) {
-      ret.code = classFormat(ret.code, options)
-  }
-  
-  let newTag = ret.isChildDomain ? tag : tag.replace('>', ` class="${ret.className}">`);
-
-  return `${newTag}${ret.code}</${tagName}>`
-}
-
-const classFormat = (html: string = '', options:PluginOptions) => {
-  const parentDomainTpls = ['blockquote'];
-
-  html = html.replace(/(<(\w+?).*?>)(.*?\$\{.+?\}.*?)<\/\2>/g, (s, tag, tagName, code) => {
-      return replaceHTMLWithCustomizedClass(options, tag, tagName, code)
-  });
-
-  parentDomainTpls.forEach((tagname) => {
-      const reg = new RegExp(`<${tagname}>([\\s\\S]*?)(class="[^"]*")`, 'g');
-      html = html.replace(reg, (s, g1, g2) => {
-          return `<${tagname} ${g2}>${g1}`
-      })
-  })
-
-  return html
-}
 
 const markdownCompiler = (options: PluginOptions): MarkdownIt | { render: (body: string) => string } => {
   if (options.markdownIt) {

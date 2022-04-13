@@ -83,6 +83,7 @@ console.log(html)
 
 ```js
 disableCustomizedClass?: boolean = false
+disableDecodeEntry?: boolean = false
 classPrefix?: string = ''
 ```
 
