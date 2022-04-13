@@ -14,10 +14,17 @@ npm i -D vite-plugin-markdown-with-prismjs
 
 ```js
 // vite.config.js
+/** commonjs **/
 const mdPlugin = require('vite-plugin-markdown-with-prismjs')
 
 module.exports = {
   plugins: [mdPlugin(options)]
+}
+
+/** esm **/
+import mdPlugin from 'vite-plugin-markdown-with-prismjs'
+module.exports = {
+  plugins: [mdPlugin.plugin(options)]  // using mdPlugin.plugin API under esm mode
 }
 ```
 
