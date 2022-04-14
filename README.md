@@ -110,7 +110,7 @@ disableDecodeEntry?: boolean = false
 classPrefix?: string = ''
 ```
 
-More detail of the original `Options` see [vite-plugin-markdown#options](https://github.com/hmsk/vite-plugin-markdown#options).
+More details of the original `Options` see [vite-plugin-markdown#options](https://github.com/hmsk/vite-plugin-markdown#options).
 
 ## License
 
