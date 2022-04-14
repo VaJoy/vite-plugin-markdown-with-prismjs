@@ -1,6 +1,6 @@
 # vite-plugin-markdown-with-prismjs
 
-A [vite-plugin-markdown](https://github.com/hmsk/vite-plugin-markdown) based plugin enables you to import a Markdown file as various formats **with customized classes & [Prismjs](https://prismjs.com/) processing** on your vite project.
+A plugin based on [vite-plugin-markdown](https://github.com/hmsk/vite-plugin-markdown) & combines [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) enables you to import a Markdown file as various formats **with [Prismjs](https://prismjs.com/) processing** on your vite project.
 
 ![](./GIF.gif)
 
@@ -18,7 +18,7 @@ npm i -D vite-plugin-markdown-with-prismjs
 // vite.config.js
 /** commonjs **/
 const mdPlugin = require('vite-plugin-markdown-with-prismjs');
-const options = {mode: 'html'};
+const options = {mode: ['html']};
 
 module.exports = {
   plugins: [mdPlugin(options)]
@@ -27,72 +27,59 @@ module.exports = {
 /** esm **/
 import mdPlugin from 'vite-plugin-markdown-with-prismjs'
 module.exports = {
-  plugins: [mdPlugin.plugin(options)]  // using mdPlugin.plugin API under esm mode
+  plugins: [mdPlugin.plugin(options)]  // use mdPlugin.plugin API under esm mode
 }
 ```
 
 ### Markdown File
-We now can add customized classes to the HTML wrapping by writing `${classes}` in the end of each block's content.
+All the code blocks will be processed by Prismjs.
 
 > Btw, `[toc]` syntax is optional supported as well. You sholud write `[toc]` on top as using this featrue.
 
 ```md
 [toc]
+# t1
+## t2 {.t2}
 
-# title with multi customized classes${class-a,class-b}
-
-- list item
-- list item with customized class${class-c}
-
-[link example${class-d}](//web.com)
-
-# img example: 
-![${class-e}](//pic.png)
-
-## sub title
-
-### sub-sub title
-
-> quote...${f}
-
-codes will be processed by **Prism.js${g}** eventually${h,i}
-
-'''js
-var a = 1
-console.log(a)
-${j,k}
+p1
+# t2
+'''js {.c1}
+var a = 1;
+var b = 2;
 '''
+
+'''js {.c2 data-c=hello}
+var c = 1;
+var d = 2;
+'''
+
+## t2-1
+### t2-1-1
 ```
 
 output:
 
 ```html
   <ul class="toc-container">
-    <li class="level-1">title with multi customized classes</li>
-    <li class="level-1">img example:</li>
-    <li class="level-2">sub title</li>
-    <li class="level-3">sub-sub title</li>
+    <li class="level-1">t1</li>
+    <li class="level-2">t2</li>
+    <li class="level-1">t2</li>
+    <li class="level-2">t2-1</li>
+    <li class="level-3">t2-1-1</li>
   </ul>
-  <h1 class="class-a class-b">title with multi customized classes</h1>
-  <ul>
-    <li>list item</li>
-    <li class="class-c">list item with customized class</li>
-  </ul>
-  <p><a href="//web.com" class="class-d">link example</a></p>
-  <h1>img example:</h1>
-  <p><img src="//pic.png" alt="" class="class-e"></p>
-  <h2>sub title</h2>
-  <h3>sub-sub title</h3>
-  <blockquote class="f">
-    <p>quote...</p>
-  </blockquote>
-  <pre class="j k"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token 
-    number">1</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
-    </code></pre>
+  <h1>t1</h1>
+  <h2 class="t2">t2</h2>
+  <p>p1</p>
+  <h1>t2</h1>
+  <pre class="c1 language-js"><code class="language-js" v-pre="true"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  </code></pre>
+  <pre class="c2 language-js" data-c="hello"><code class="language-js" v-pre="true"><span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> d <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  </code></pre>
+  <h2>t2-1</h2>
+  <h3>t2-1-1</h3>
 ```
-
-
 
 ## Module
 
@@ -102,15 +89,9 @@ import { html } from './contents/the-doc.md';
 console.log(html)
 ```
 
-## 3. Extended Options
+## 3. APIs
 
-```js
-disableCustomizedClass?: boolean = false
-disableDecodeEntry?: boolean = false
-classPrefix?: string = ''
-```
-
-More details of the original `Options` see [vite-plugin-markdown#options](https://github.com/hmsk/vite-plugin-markdown#options).
+More details see [vite-plugin-markdown#options](https://github.com/hmsk/vite-plugin-markdown#options) and [https://github.com/arve0/markdown-it-attrs#usage](https://github.com/arve0/markdown-it-attrs#usage).
 
 ## License
 

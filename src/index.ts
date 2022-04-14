@@ -1,5 +1,6 @@
 import Frontmatter from 'front-matter'
 import MarkdownIt from 'markdown-it'
+import markdownItAttrs from 'markdown-it-attrs'
 import { Plugin } from 'vite'
 import { TransformResult } from 'rollup'
 import { parseDOM, DomUtils } from 'htmlparser2'
@@ -18,6 +19,9 @@ export interface PluginOptions {
   disableCustomizedClass?: boolean
   disableDecodeEntry?: boolean
   disableInertTocToHTML?: boolean
+  leftDelimiter?: boolean
+  rightDelimiter?: boolean
+  allowedAttributes?: boolean
   mode?: Mode[]
   markdown?: (body: string) => string
   markdownIt?: MarkdownIt | MarkdownIt.Options
@@ -35,7 +39,13 @@ const markdownCompiler = (options: PluginOptions): MarkdownIt | { render: (body:
   } else if (options.markdown) {
     return { render: options.markdown }
   }
-  return MarkdownIt({ html: true, xhtmlOut: options.mode?.includes(Mode.REACT) }) // TODO: xhtmlOut should be got rid of in next major update
+  const md = MarkdownIt({ html: true, xhtmlOut: options.mode?.includes(Mode.REACT) }) // TODO: xhtmlOut should be got rid of in next major update
+  return md.use(markdownItAttrs, {
+    // optional, these are default options
+    leftDelimiter: options.leftDelimiter || '{',
+    rightDelimiter: options.rightDelimiter || '}',
+    allowedAttributes: options.allowedAttributes || [],  // empty array = all attributes are allowed
+  })
 }
 
 class ExportedContent {

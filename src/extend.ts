@@ -3,9 +3,9 @@ import Prism from 'prismjs'
 import he from 'he'
 
 export const formatHTML = (html: string, options: PluginOptions): string => {
-  if (!options.disableCustomizedClass) {
-    html = classFormat(html, options)
-  }
+  // if (!options.disableCustomizedClass) {
+  //   html = classFormat(html, options)
+  // }
 
   html = codeFormat(html, options)
   return html
@@ -76,7 +76,7 @@ const customizedClassHandler = (code: string, options: PluginOptions) => {
 }
 
 const codeFormat = (html: string, options: PluginOptions) => {
-  html = html.replace(/<pre(\sclass="[^"]+")?><code>([\s\S]+?)<\/code><\/pre>/g,
+  html = html.replace(/<pre><code(.*?class="[^"]+".*?)?>([\s\S]+?)<\/code><\/pre>/g,
     (s, classes = '', code) => {
       const match = classes.match(/\slanguage-(\w+)"/) || []
       const language = match[1] || 'javascript'
