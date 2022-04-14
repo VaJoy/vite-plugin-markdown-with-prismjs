@@ -10,6 +10,15 @@ export const formatHTML = (html: string, options: PluginOptions): string => {
   html = codeFormat(html, options)
   return html
 }
+export const generateTocHTML = (toc: { level: string; content: string }[] = []): string => {
+  let ulHtml = '<ul class="toc-container">'
+  toc.forEach(item => {
+    ulHtml += `<li class="level-${item.level}">${item.content}</li>`
+  })
+  ulHtml += '</ul>'
+  return ulHtml
+}
+
 const decodeEntry = (html: string, options: PluginOptions) => {
   if (!options.disableDecodeEntry) {
     return he.decode(html)

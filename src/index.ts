@@ -4,7 +4,7 @@ import { Plugin } from 'vite'
 import { TransformResult } from 'rollup'
 import { parseDOM, DomUtils } from 'htmlparser2'
 import { Element, Node as DomHandlerNode } from 'domhandler'
-import { formatHTML } from './extend'
+import { formatHTML, generateTocHTML } from './extend'
 
 export enum Mode {
   TOC = 'toc',
@@ -17,6 +17,7 @@ export interface PluginOptions {
   classPrefix?: string
   disableCustomizedClass?: boolean
   disableDecodeEntry?: boolean
+  disableInertTocToHTML?: boolean
   mode?: Mode[]
   markdown?: (body: string) => string
   markdownIt?: MarkdownIt | MarkdownIt.Options
@@ -65,13 +66,8 @@ const tf = (code: string, id: string, options: PluginOptions): TransformResult =
   let html = markdownCompiler(options).render(fm.body)
   html = formatHTML(html, options)
 
-  if (options.mode?.includes(Mode.HTML)) {
-    content.addContext(`const html = ${JSON.stringify(html)}`)
-    content.addExporting('html')
-  }
-
-  if (options.mode?.includes(Mode.TOC)) {
-    const root = parseDOM(html)
+  const getTOC = (h = '') => {
+    const root = parseDOM(h)
     const indicies = root.filter(
       rootSibling => rootSibling instanceof Element && ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(rootSibling.tagName)
     ) as Element[]
@@ -81,9 +77,29 @@ const tf = (code: string, id: string, options: PluginOptions): TransformResult =
       content: DomUtils.getInnerHTML(index),
     }))
 
+    return toc
+  }
+
+  if (options.mode?.includes(Mode.TOC)) {
+    options.disableInertTocToHTML = true
+    const toc: { level: string; content: string }[] = getTOC(html)
+
     content.addContext(`const toc = ${JSON.stringify(toc)}`)
     content.addExporting('toc')
   }
+
+  if (!options.disableInertTocToHTML && html.indexOf('<p>[toc]</p>') === 0) {
+    const toc = getTOC(html)
+    html = html.replace(/^<p>\[toc\]<\/p>/, '')
+    html = `${generateTocHTML(toc)}${html}`
+  }
+
+  if (options.mode?.includes(Mode.HTML)) {
+    content.addContext(`const html = ${JSON.stringify(html)}`)
+    content.addExporting('html')
+  }
+
+  
 
   if (options.mode?.includes(Mode.REACT)) {
     const root = parseDOM(html, { lowerCaseTags: false })
