@@ -34,7 +34,7 @@ module.exports = {
 ### Markdown File
 We now can add customized classes to the HTML wrapping by writing `${classes}` in the end of each block's content.
 
-> Btw, `[toc]` syntax is optional supported as well. You sholud write '[toc]' on top as using this featrue.
+> Btw, `[toc]` syntax is optional supported as well. You sholud write `[toc]` on top as using this featrue.
 
 ```md
 [toc]
