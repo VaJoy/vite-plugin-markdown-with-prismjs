@@ -8,6 +8,11 @@ export const formatHTML = (html: string, options: PluginOptions): string => {
   // }
 
   html = codeFormat(html, options)
+
+  if(!options.disableWrapperSyntax) {
+    html = wrapperFormat(html)
+  }
+
   return html
 }
 export const generateTocHTML = (toc: { level: string; content: string }[] = []): string => {
@@ -17,6 +22,13 @@ export const generateTocHTML = (toc: { level: string; content: string }[] = []):
   })
   ulHtml += '</ul>'
   return ulHtml
+}
+
+const wrapperFormat = (html: string): string => {
+  html = html.replace(/<p([^>]*?)>\^\^\^<\/p>([\s\S]*?)<p>\^\^\^<\/p>/g, (s, attrs, code) => {
+    return `<div${attrs}>${code}</div>`
+  })
+  return html
 }
 
 const decodeEntry = (html: string, options: PluginOptions) => {

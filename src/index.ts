@@ -15,6 +15,7 @@ export enum Mode {
 }
 
 export interface PluginOptions {
+  disableWrapperSyntax?: boolean
   classPrefix?: string
   disableCustomizedClass?: boolean
   disableDecodeEntry?: boolean

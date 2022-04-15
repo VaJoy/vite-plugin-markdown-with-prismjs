@@ -10,19 +10,13 @@ md.use(markdownItAttrs, {
 
 
 var src = `
-# t1
-## t2 {.t2}
-p1
+^^^ {.a}
 
-\`\`\`js {.c1}
-var a = 1;
-var b = 2;
-\`\`\`
+> wrapped-block-1
 
-\`\`\`js {.c2 data-c=hello}
-var c = 1;
-var d = 2;
-\`\`\`
+wrapped-block-2
+
+^^^
 `;
 var res = md.render(src);
 

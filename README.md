@@ -34,7 +34,8 @@ module.exports = {
 ### Markdown File
 All the code blocks will be processed by Prismjs.
 
-> Btw, `[toc]` syntax is optional supported as well. You sholud write `[toc]` on top as using this featrue.
+> `[toc]` syntax is now optional supported as well. You sholud write `[toc]` on top as using this featrue.
+> Btw, you can wrap certain blocks by `^^^` syntax (see example belows).
 
 ```md
 [toc]
@@ -47,6 +48,14 @@ p1
 var a = 1;
 var b = 2;
 '''
+
+^^^ {.wrapper-class}
+
+> wrapped-block-1
+
+wrapped-block-2
+
+^^^
 
 '''js {.c2 data-c=hello}
 var c = 1;
@@ -74,6 +83,12 @@ output:
   <pre class="c1 language-js"><code class="language-js" v-pre="true"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
   <span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
   </code></pre>
+  <div class="wrapper-class">
+    <blockquote>
+      <p>wrapped-block-1</p>
+    </blockquote>
+    <p>wrapped-block-2</p>
+  </div>
   <pre class="c2 language-js" data-c="hello"><code class="language-js" v-pre="true"><span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
   <span class="token keyword">var</span> d <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
   </code></pre>

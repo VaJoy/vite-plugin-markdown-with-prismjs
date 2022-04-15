@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-markdown-with-prismjs",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Import markdown files in vite with Prismjs processing",
   "main": "dist/index.js",
   "files": [
@@ -22,12 +22,6 @@
     "vue"
   ],
   "author": "VaJoy Lan <vajoy@qq.com>",
-  "contributors": [
-    "Kengo Hamasaki <k.hamasaki@gmail.com>",
-    "sapphi-red <green@sapphi.red>",
-    "Alex Zheng <zhibo90@gmail.com>",
-    "Dafrok <o.o@mug.dog>"
-  ],
   "license": "MIT",
   "repository": {
     "type": "git",
