@@ -35,6 +35,7 @@ module.exports = {
 All the code blocks will be processed by Prismjs.
 
 > `[toc]` syntax is now optional supported as well. You sholud write `[toc]` on top as using this featrue.
+
 > Btw, you can wrap certain blocks by `^^^` syntax (see example belows).
 
 ```md
@@ -44,10 +45,10 @@ All the code blocks will be processed by Prismjs.
 
 p1
 # t2
-'''js {.c1}
+ˋˋˋjs {.c1}
 var a = 1;
 var b = 2;
-'''
+ˋˋˋ
 
 ^^^ {.wrapper-class}
 
@@ -57,10 +58,10 @@ wrapped-block-2
 
 ^^^
 
-'''js {.c2 data-c=hello}
+ˋˋˋjs {.c2 data-c=hello}
 var c = 1;
 var d = 2;
-'''
+ˋˋˋ
 
 ## t2-1
 ### t2-1-1
