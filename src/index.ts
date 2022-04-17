@@ -196,7 +196,7 @@ const tf = (code: string, id: string, options: PluginOptions): TransformResult =
 
 export const plugin = (options: PluginOptions = {}): Plugin => {
   return {
-    name: 'vite-plugin-markdown',
+    name: 'vite-plugin-markdown-with-prismjs',
     enforce: 'pre',
     transform(code, id) {
       return tf(code, id, options)

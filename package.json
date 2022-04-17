@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-markdown-with-prismjs",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Import markdown files in vite with Prismjs processing",
   "main": "dist/index.js",
   "files": [
